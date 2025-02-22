@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 
 import { Search, CloudRain, X } from "lucide-react";
 
-import WeatherChart from "./components/WeatherChart/WeatherChart";
+import WeatherChart from "./components/WeatherChart";
 import Spinner from "./components/Spinner/Spinner";
 import { MetricType, Granularity } from "./types";
 import { useCityManagement } from "./hooks/useCityManagement";
@@ -128,11 +128,19 @@ function App() {
                   <Spinner size="lg" />
                 </div>
               ) : (
-                <WeatherChart
-                  cities={cities}
-                  metricType={metricType}
-                  granularity={granularity}
-                />
+                <Suspense
+                  fallback={
+                    <div className="flex justify-center items-center h-[400px]">
+                      <Spinner size="lg" />
+                    </div>
+                  }
+                >
+                  <WeatherChart
+                    cities={cities}
+                    metricType={metricType}
+                    granularity={granularity}
+                  />
+                </Suspense>
               )}
             </div>
           )}
